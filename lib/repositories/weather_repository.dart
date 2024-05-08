@@ -14,7 +14,6 @@ class WeatherRepository {
     try {
       final DirectGeocoding directGeocoding =
           await weatherApiServices.getDirectGeocoding(city);
-      print('directGeocoding: $directGeocoding');
       final Weather tempWeather =
           await weatherApiServices.getWeather(directGeocoding);
 
@@ -22,7 +21,6 @@ class WeatherRepository {
         name: directGeocoding.name,
         country: directGeocoding.country,
       );
-      print('weather: $weather');
       return weather;
     } on WeatherException catch (e) {
       throw CustomError(errMsg: e.message);
