@@ -1,8 +1,16 @@
-# open_weather_provider
+# open_weather
 
-A new Flutter project.
+*  With: 
+
+        ChangeNotifierProvider + ChangeNotifierProxyProvider
+
+
+## App Flow
+
+![App Flow](assets/images/app_flow.png)
 
 ## Getting Started
+
 
 This project is a starting point for a Flutter application.
 
