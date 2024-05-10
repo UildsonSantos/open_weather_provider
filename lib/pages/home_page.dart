@@ -26,6 +26,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   String showTemperature(double temperature) {
+    final temUnit = context.watch<TempSettingsProvider>().state.tempUnit;
+
+    if (temUnit == TempUnit.fahrenheit) {
+      return '${((temperature * 9 / 5) + 32).toStringAsFixed(2)}°F';
+    }
+
     return '${temperature.toStringAsFixed(2)}°C';
   }
 
@@ -63,7 +69,22 @@ class _HomePageState extends State<HomePage> {
                   weatherContext.fetchWeather(_city!);
                 }
               },
-            )
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.settings,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const SettingsPage();
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
         body: _showWeather());
@@ -138,7 +159,7 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: [
                 Text(
-                 'Máx. ${showTemperature(state.weather.tempMax)}',
+                  'Máx. ${showTemperature(state.weather.tempMax)}',
                   style: const TextStyle(fontSize: 16.0),
                 ),
                 const SizedBox(height: 10.0),
@@ -167,7 +188,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Widget showIcon(String icon) {
     return FadeInImage.assetNetwork(
       placeholder: 'assets/images/loading.gif',
@@ -176,7 +196,6 @@ class _HomePageState extends State<HomePage> {
       height: 96,
     );
   }
-
 
   Widget formatText(String description) {
     final formattedString = description.titleCase;

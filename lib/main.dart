@@ -30,7 +30,10 @@ class MyApp extends StatelessWidget {
           create: (context) => WeatherProvider(
             weatherRepository: context.read<WeatherRepository>(),
           ),
-        )
+        ),
+        ChangeNotifierProvider<TempSettingsProvider>(
+          create: (context) => TempSettingsProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Open Weather',
