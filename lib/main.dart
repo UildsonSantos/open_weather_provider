@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:open_weather_provider/pages/pages.dart';
 import 'package:open_weather_provider/providers/providers.dart';
+import 'package:open_weather_provider/providers/theme/theme_provider.dart';
 import 'package:open_weather_provider/repositories/repositories.dart';
 import 'package:open_weather_provider/services/services.dart';
 import 'package:provider/provider.dart';
@@ -34,14 +35,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TempSettingsProvider>(
           create: (context) => TempSettingsProvider(),
         ),
+        ChangeNotifierProxyProvider(
+          create: (context) => ThemeProvider(),
+          update: (
+            BuildContext context,
+            WeatherProvider weatherProvider,
+            ThemeProvider? themeProvider,
+          ) =>
+              themeProvider!..update(weatherProvider),
+        ),
       ],
-      child: MaterialApp(
+      builder: (context, _) => MaterialApp(
         title: 'Open Weather',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: context.watch<ThemeProvider>().state.appTheme == AppTheme.light
+            ? ThemeData.light()
+            : ThemeData.dark(),
         home: const HomePage(),
       ),
     );
